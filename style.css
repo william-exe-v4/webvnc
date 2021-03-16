@@ -1,0 +1,8 @@
+@font-face {
+    font-family: Comfortaa;
+    src: url(Comfortaa.ttf);
+  
+h1 {
+  font-family: Comfortaa;
+  font-color: #35cca3;
+  font-size: 32px;
