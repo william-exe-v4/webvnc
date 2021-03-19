@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect
-import re
 
 program = Flask(__name__)
 
@@ -14,26 +13,26 @@ def login():
             # Gets username from the input box
             username = request.form.get('username')
             error = "ERROR USERNAME IS NOT REGISTERED"
-            # if username from input box is in the text file 'usernames.txt'
-            with open("usernames.txt", "r") as txtFile:
-                for line in txtFile:
-                    if re.search(username, line):
-                        return render_template('vnc.html')
-                    else:
-                        return error
+            if len(username) <= 4:
+                return 'username has to be 5 or more characters'
+            with open('usernames.txt', 'r') as content:
+                if username in content.read():
+                    return render_template('vnc.html')
+                else:
+                    return error
+
         elif request.form.get('Register'):
             # Gets the username from the input box
             username = request.form.get('regUsername')
             error = 'ERROR USERNAME ALREADY REGISTERED'
-            print(username)
-            with open("usernames.txt", "r") as txtFile:
-                for line in txtFile:
-                    if re.search(username, line):
-                        return error
-                    else:
-                        regUserA = open('usernames.txt', 'a')
-                        regUserA.write(username + '\n')
-                        return render_template('login.html')
+            if len(username) <= 4:
+                return 'username has to be 5 characters or more.'
+            with open('usernames.txt', 'a+') as content:
+                if username in content.read():
+                    return error
+                else:
+                    content.write(username + '\n')
+                    return render_template('login.html')
 
     return render_template("login.html")
 
